@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, Insert, Select
+from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, Insert, Select, ForeignKey
 
 engine = create_engine('sqlite:///core_database.db', echo = True)
 
@@ -12,6 +12,16 @@ people = Table(
     Column('id', Integer, primary_key=True),
     Column('name', String, nullable=False),
     Column('age', Integer, nullable=False)
+)
+
+# A Python object representing the table.
+things = Table(
+    "things",
+    meta,
+    Column('id', Integer, primary_key=True),
+    Column('description', String, nullable=False),
+    Column('person_id', Integer, ForeignKey('people.id')),
+    Column('price', Integer, nullable=False)
 )
 
 #Take all tables stored in Metadata and create them in the database.
