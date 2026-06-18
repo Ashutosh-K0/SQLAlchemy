@@ -27,14 +27,41 @@ Base.metadata.create_all(engine)
 Session = sessionmaker(bind = engine)
 session = Session()
 
-new_person = Person(name = 'Charlie', age = 70)
-session.add(new_person)
-session.flush()
 
-new_thing = Thing(description = 'Camera', value = 50, owner_id = new_person.id)
-session.add(new_thing)
+## INSERTION COMMAND
+# new_person = Person(name = 'Charlie', age = 70)
+# session.add(new_person)
+# session.flush()
 
+# new_thing = Thing(description = 'Camera', value = 50, owner_id = new_person.id)
+# session.add(new_thing)
+
+# session.commit()
+
+# print([t.description for t in new_person.things])
+# print(new_thing.person.name)
+
+
+## SELECT COMMAND
+# result = session.query(Person.name, Person.age).all()
+# print(result)
+
+# result_1 = session.query(Person.name).filter(Person.age > 50).all()
+# print(result_1)
+
+
+## DELETE COMMAND
+# session.query(Thing).filter(Thing.value>40).delete()
+# session.commit()
+
+# result_2 = session.query(Thing).filter(Thing.value > 40).all()
+# print([t.description for t in result_2])
+
+## UPDATE COMMAND
+session.query(Person).filter(Person.name == 'Charlie').update({'name': 'Charles'})
 session.commit()
 
-print([t.description for t in new_person.things])
-print(new_thing.person.name)
+result_3 = session.query(Person.name).all()
+print(result_3) 
+
+session.close()
